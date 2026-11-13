@@ -1,0 +1,42 @@
+# Maven
+# target/ - needed for pre-built WAR
+# *.war - needed for pre-built WAR
+*.jar
+pom.xml.versionsBackup
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.sts4-cache/
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+License.md
+
+# Test
+*Test.java
+*IntegrationTest.java
+*LiveTest.java

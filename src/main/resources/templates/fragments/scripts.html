@@ -1,0 +1,77 @@
+<!-- Scripts communs -->
+<script>
+    // Configuration globale Alpine.js
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('sidebar', () => ({
+            open: false,
+            toggle() { this.open = !this.open },
+            close() { this.open = false }
+        }))
+
+        Alpine.data('dropdown', () => ({
+            open: false,
+            toggle() { this.open = !this.open },
+            close() { this.open = false }
+        }))
+
+        Alpine.data('modal', () => ({
+            open: false,
+            show() { this.open = true; document.body.style.overflow = 'hidden' },
+            hide() { this.open = false; document.body.style.overflow = '' }
+        }))
+
+        Alpine.data('toast', () => ({
+            toasts: [],
+            add(message, type = 'info', duration = 5000) {
+                const id = Date.now()
+                this.toasts.push({ id, message, type })
+                if (duration) setTimeout(() => this.remove(id), duration)
+            },
+            remove(id) {
+                this.toasts = this.toasts.filter(t => t.id !== id)
+            }
+        }))
+    })
+
+    // Utilitaires globaux
+    window.ABIsoft = {
+        // Formatage de date
+        formatDate: (date, locale = 'ar-MA') => {
+            return new Date(date).toLocaleDateString(locale, {
+                year: 'numeric', month: 'long', day: 'numeric'
+            })
+        },
+        // Formatage nombre
+        formatNumber: (num, locale = 'ar-MA') => {
+            return new Intl.NumberFormat(locale).format(num)
+        },
+        // Formatage devise
+        formatCurrency: (amount, currency = 'MAD', locale = 'ar-MA') => {
+            return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(amount)
+        },
+        // Afficher toast
+        toast: (message, type = 'info') => {
+            const toastEl = document.querySelector('[x-data*="toast"]')
+            if (toastEl && toastEl._x_dataStack) {
+                toastEl._x_dataStack[0].add(message, type)
+            }
+        },
+        // Confirmation
+        confirm: (message, onConfirm) => {
+            if (window.confirm(message)) onConfirm()
+        },
+        // Requête AJAX avec CSRF
+        fetch: async (url, options = {}) => {
+            const token = document.querySelector('meta[name="_csrf"]')?.content
+            const header = document.querySelector('meta[name="_csrf_header"]')?.content
+            const headers = { 'Content-Type': 'application/json', ...options.headers }
+            if (token && header) headers[header] = token
+            const res = await fetch(url, { ...options, headers, credentials: 'same-origin' })
+            if (res.status === 401) window.location.href = '/login'
+            return res
+        }
+    }
+</script>
+
+<!-- Fragment pour scripts additionnels par page -->
+<th:block layout:fragment="custom-scripts"></th:block>

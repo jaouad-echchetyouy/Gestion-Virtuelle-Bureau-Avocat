@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Détails du Rendez-vous</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h2>Détails du Rendez-vous</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <p><strong>ID:</strong> <span th:text="${rdv.id}"></span></p>
+      <p><strong>Date:</strong> <span th:text="${#dates.format(rdv.date, 'dd/MM/yyyy')}"></span></p>
+      <p><strong>Heure:</strong> <span th:text="${rdv.heur}"></span></p>
+      <p><strong>Sujet:</strong> <span th:text="${rdv.sujet}"></span></p>
+      <p><strong>Client ID:</strong> <span th:text="${rdv.client != null ? rdv.client.id : 'Non défini'}"></span></p>
+      <p><strong>Bureau ID:</strong> <span th:text="${rdv.bureau != null ? rdv.bureau.id : 'Non défini'}"></span></p>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <a th:href="@{/rdv/edit/{id}(id=${rdv.id})}" class="btn btn-warning">Modifier</a>
+    <a th:href="@{/rdv/delete/{id}(id=${rdv.id})}" class="btn btn-danger"
+       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous?')">Supprimer</a>
+    <a th:href="@{/rdv/list}" class="btn btn-secondary">Retour à la liste</a>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

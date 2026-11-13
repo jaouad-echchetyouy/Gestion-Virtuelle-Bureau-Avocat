@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Créer un Rendez-vous</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Créer un nouveau Rendez-vous</h2>
+
+    <form th:action="@{/rdv/create}" th:object="${rdv}" method="post">
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date" th:field="*{date}" required>
+            <span class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="heur">Heure</label>
+            <input type="time" class="form-control" id="heur" th:field="*{heur}" required>
+            <span class="text-danger" th:if="${#fields.hasErrors('heur')}" th:errors="*{heur}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="sujet">Sujet</label>
+            <input type="text" class="form-control" id="sujet" th:field="*{sujet}" required>
+            <span class="text-danger" th:if="${#fields.hasErrors('sujet')}" th:errors="*{sujet}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="client">Client</label>
+            <select th:field="*{client}" class="form-control" id="client">
+                <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.getLastName() + ' ' + c.getFirstName()}"></option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label for="bureau">Bureau</label>
+            <select class="form-control" id="bureau" th:field="*{bureau}" required>
+                <option th:each="b : ${bureaux}" th:value="${b.id}" th:text="${b.getNom()}">Bureau</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Créer</button>
+        <a th:href="@{/rdv/list}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+</body>
+</html>

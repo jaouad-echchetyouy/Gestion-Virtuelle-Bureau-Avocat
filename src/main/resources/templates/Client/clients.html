@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الزبناء</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .btn-action {
+            margin-right: 5px;
+        }
+        .alert {
+            margin-top: 15px;
+        }
+        .modal-header {
+            flex-direction: row-reverse;
+        }
+        .modal-footer {
+            justify-content: flex-start;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <!-- Messages d'alerte -->
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">إدارة الزبناء</h3>
+        </div>
+        <div class="card-body">
+            <!-- Onglets -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">قائمة الزبناء</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="client-tab" data-bs-toggle="tab" data-bs-target="#client" type="button" role="tab" aria-controls="client" aria-selected="false">إضافة زبون جديد</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <!-- Onglet Liste des clients -->
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <!-- Recherche -->
+                    <div class="row search-container mt-3">
+                        <div class="col-md-12">
+                            <form th:action="@{/Client/clients}" method="get" class="row g-3">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="query" th:value="${param.query}" placeholder="بحث عن محامي">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="query2" th:value="${param.query2}" placeholder="بحث حسب الهيئة">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="queryDossiers" th:value="${param.queryDossiers}" placeholder="بحث حسب رقم الملف">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-primary w-100">بحث</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Tableau des clients -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>صورة</th>
+                                <th>الاسم</th>
+                                <th>النسب</th>
+                                <th>البريد الإلكتروني</th>
+                                <th>الهاتف</th>
+                                <th>العنوان</th>
+                                <th>تاريخ الإنشاء</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${clients.isEmpty()}">
+                                <td colspan="8" class="text-center">لم يتم العثور على أي زبون</td>
+                            </tr>
+                            <tr th:each="client : ${clients}">
+<!--                                <td>-->
+<!--                                    <img th:if="${client.image}" th:src="@{'/images/' + ${client.image}}" alt="صورة الزبون" class="img-thumbnail" width="50">-->
+<!--                                    <span th:unless="${client.image}">لا توجد صورة</span>-->
+<!--                                </td>-->
+                                <td th:text="${client.firstName}"></td>
+                                <td th:text="${client.lastName}"></td>
+                                <td th:text="${client.email}"></td>
+                                <td th:text="${client.tel}"></td>
+                                <td th:text="${client.adresse}"></td>
+                                <td th:text="${#dates.format(client.dateCreation, 'dd-MM-yyyy')}"></td>
+                                <td>
+                                    <a th:href="@{/Client/edit/{id}(id=${client.id})}" class="btn btn-warning btn-sm btn-action">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/Client/delete/{id}(id=${client.id})}" class="btn btn-danger btn-sm btn-action"
+                                       onclick="return confirm('هل أنت متأكد من حذف هذا الزبون؟')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <a th:href="@{/Client/view/{id}(id=${client.id})}" class="btn btn-info btn-sm btn-action">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Onglet Ajout client -->
+                <div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="client-tab">
+                    <form th:action="@{/Client/clients/add}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <h3>انشاء حساب زبون</h3>
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" name="Cname" placeholder="الاسم" required />
+                                    <div class="invalid-feedback">الرجاء إدخال الاسم</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" name="Clast" placeholder="النسب" required />
+                                    <div class="invalid-feedback">الرجاء إدخال النسب</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="email" class="form-control" name="Cemail" placeholder="البريد الإلكتروني" required />
+                                    <div class="invalid-feedback">الرجاء إدخال بريد إلكتروني صحيح</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="password" class="form-control" name="Cpassw" placeholder="كلمة المرور" required />
+                                    <div class="invalid-feedback">كلمة المرور يجب أن تكون 8 أحرف على الأقل</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <input type="text" pattern="\d{4}" class="form-control" name="CCarte" placeholder="البطاقة الوطنية" required />
+                                    <div class="invalid-feedback">رقم البطاقة الوطنية يجب أن يكون 8 أرقام</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" name="Cadresse" placeholder="العنوان" minlength="3" required />
+                                    <div class="invalid-feedback">الرجاء إدخال العنوان بشكل صحيح</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="date" class="form-control" name="CDate" required />
+                                    <div class="invalid-feedback">الرجاء اختيار تاريخ</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="tel" pattern="0[5-7]\d{8}" class="form-control" name="Ctel" placeholder="الهاتف" required />
+                                    <div class="invalid-feedback">رقم الهاتف يجب أن يبدأ ب 05، 06 أو 07 ويتكون من 10 أرقام</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="tel" pattern="0\d{9}" class="form-control" name="Ctelfixe" placeholder="الهاتف الثابت" />
+                                    <div class="invalid-feedback">رقم الهاتف الثابت يجب أن يتكون من 10 أرقام</div>
+                                </div>
+                                <div class="custom-file mb-3">
+                                    <input type="file" class="form-control" id="clientImage" name="file" accept="image/*">
+                                    <div class="invalid-feedback">الرجاء اختيار صورة صالحة</div>
+                                </div>
+                                <div class="mt-4 d-grid">
+                                    <button class="btn btn-primary waves-effect waves-light" type="submit"><b>تسجيل</b></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Script pour la validation des formulaires
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
+    // Script pour afficher le nom du fichier sélectionné
+    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+        var fileName = e.target.files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    })
+
+    // Activer l'onglet approprié si besoin
+    document.addEventListener('DOMContentLoaded', function() {
+        // Si un message d'erreur est présent sur le formulaire d'ajout, ouvrir cet onglet
+        if (document.querySelector('#client .alert-danger')) {
+            document.getElementById('client-tab').click();
+        }
+    });
+</script>
+</body>
+</html>

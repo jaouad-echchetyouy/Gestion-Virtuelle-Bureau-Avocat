@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" dir="rtl"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Connexion | ABIsoft</title>
+</head>
+<body>
+    <section layout:fragment="content" class="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md">
+            <!-- Logo / Header -->
+            <div class="text-center mb-8">
+                <a href="/" class="inline-flex items-center gap-2 mb-6">
+                    <div class="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center">
+                        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold text-secondary-900 font-arabic">ABIsoft</span>
+                </a>
+                <h1 class="text-2xl font-bold text-secondary-900">مرحبا بعودتكم</h1>
+                <p class="mt-2 text-secondary-500">Connectez-vous pour accéder à votre espace</p>
+            </div>
+
+            <!-- Carte de connexion -->
+            <div class="bg-white rounded-2xl shadow-sm border border-secondary-200 p-6 sm:p-8">
+                <!-- Affichage des erreurs globales -->
+                <div th:if="${param.error}" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700" role="alert">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                        <span>Email ou mot de passe incorrect</span>
+                    </div>
+                </div>
+
+                <div th:if="${param.logout}" class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700" role="alert">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <span>Vous avez été déconnecté avec succès</span>
+                    </div>
+                </div>
+
+                <!-- Formulaire -->
+                <form th:action="@{/login}" method="post" class="space-y-5" novalidate>
+                    <!-- CSRF automatique avec Thymeleaf -->
+                    <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                    <!-- Email -->
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-secondary-700 mb-1.5">البريد الإلكتروني</label>
+                        <div class="relative">
+                            <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <input
+                                type="email"
+                                id="username"
+                                name="username"
+                                autocomplete="email"
+                                required
+                                th:value="${#request.getParameter('username')}"
+                                class="w-full pl-4 pr-10 py-3 border border-secondary-300 rounded-lg text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                placeholder="votre@email.com"
+                                aria-describedby="email-error"
+                            >
+                        </div>
+                        <p id="email-error" class="mt-1.5 text-sm text-red-600 hidden" aria-live="polite">Veuillez entrer un email valide</p>
+                    </div>
+
+                    <!-- Mot de passe -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="password" class="block text-sm font-medium text-secondary-700">كلمة المرور</label>
+                            <a href="/auth/mot-de-passe-oublie" class="text-sm text-primary-600 hover:underline">نسيت كلمة المرور؟</a>
+                        </div>
+                        <div class="relative">
+                            <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                autocomplete="current-password"
+                                required
+                                class="w-full pl-4 pr-10 py-3 border border-secondary-300 rounded-lg text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                placeholder="••••••••"
+                                aria-describedby="password-error"
+                            >
+                            <button
+                                type="button"
+                                @click="$refs.pwd.type = $refs.pwd.type === 'password' ? 'text' : 'password'; $refs.eyeOpen.classList.toggle('hidden'); $refs.eyeClosed.classList.toggle('hidden')"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 text-secondary-400 hover:text-secondary-600"
+                                aria-label="Afficher/masquer le mot de passe"
+                            >
+                                <svg x-ref="eyeOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                <svg x-ref="eyeClosed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                            </button>
+                        </div>
+                        <p id="password-error" class="mt-1.5 text-sm text-red-600 hidden" aria-live="polite">Le mot de passe est requis</p>
+                    </div>
+
+                    <!-- Se souvenir de moi -->
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                name="remember-me"
+                                id="remember-me"
+                                class="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-2 focus:ring-primary-500"
+                            >
+                            <span class="text-sm text-secondary-600">Se souvenir de moi</span>
+                        </label>
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    <button
+                        type="submit"
+                        class="w-full py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+                    >
+                        الدخول
+                    </button>
+                </form>
+
+                <!-- Liens bas -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-secondary-500">
+                        Vous n'avez pas de compte ?
+                        <a href="/inscription" class="font-medium text-primary-600 hover:underline ml-1">Créer un compte</a>
+                    </p>
+                </div>
+
+                <!-- Séparateur -->
+                <div class="mt-6 relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-secondary-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-secondary-400">Ou continuer avec</span>
+                    </div>
+                </div>
+
+                <!-- Connexion sociale -->
+                <div class="mt-4 grid grid-cols-3 gap-3">
+                    <button type="button" class="flex items-center justify-center gap-2 px-4 py-2.5 border border-secondary-300 rounded-lg text-secondary-700 hover:bg-secondary-50 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        <span class="text-sm">Google</span>
+                    </button>
+                    <button type="button" class="flex items-center justify-center gap-2 px-4 py-2.5 border border-secondary-300 rounded-lg text-secondary-700 hover:bg-secondary-50 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h1.8V5h2.9v3.26H22v1.26h-1.23v3.26H18.77v-3.26z"/></svg>
+                        <span class="text-sm">LinkedIn</span>
+                    </button>
+                    <button type="button" class="flex items-center justify-center gap-2 px-4 py-2.5 border border-secondary-300 rounded-lg text-secondary-700 hover:bg-secondary-50 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        <span class="text-sm">Twitter</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Illustration -->
+            <div class="mt-8 text-center">
+                <img th:src="@{/images/auth-illustration.svg}" alt="Illustration" class="mx-auto max-w-xs opacity-80">
+            </div>
+        </div>
+    </section>
+</body>
+</html>

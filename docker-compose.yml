@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  # =============================================================================
+  # Base de données MySQL 8
+  # =============================================================================
+  db:
+    image: mysql:8.4
+    container_name: abisoft-db
+    environment:
+      MYSQL_DATABASE: abisoft
+      MYSQL_USER: abisoft
+      MYSQL_PASSWORD: ${DB_PASSWORD:-abisoft123}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root123}
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init-sql:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - abisoft-network
+    restart: unless-stopped
+
+  # =============================================================================
+  # Application Spring Boot (Production)
+  # =============================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: abisoft-app
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-prod}
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/abisoft?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: abisoft
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-abisoft123}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      SPRING_MAIL_PORT: ${MAIL_PORT:-587}
+      SPRING_MAIL_USERNAME: ${MAIL_USERNAME:-}
+      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      SERVER_PORT: 8080
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - abisoft-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # =============================================================================
+  # Application Spring Boot (Développement) - Profile: dev
+  # =============================================================================
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: abisoft-app-dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/abisoft?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: abisoft
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-abisoft123}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      SPRING_MAIL_PORT: ${MAIL_PORT:-587}
+      SPRING_DEVTOOLS_REMOTE_SECRET: devsecret
+    ports:
+      - "8081:8080"
+      - "35729:35729"  # LiveReload
+      - "5005:5005"    # Debug port
+    volumes:
+      - ./src:/app/src:cached
+      - ~/.m2:/root/.m2:cached
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - abisoft-network
+    restart: unless-stopped
+    profiles:
+      - dev
+
+  # =============================================================================
+  # Adminer (Interface DB) - Profile: dev
+  # =============================================================================
+  adminer:
+    image: adminer:4.8
+    container_name: abisoft-adminer
+    ports:
+      - "8082:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    networks:
+      - abisoft-network
+    profiles:
+      - dev
+    restart: unless-stopped
+
+  # =============================================================================
+  # Mailhog (Test emails) - Profile: dev
+  # =============================================================================
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: abisoft-mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - abisoft-network
+    profiles:
+      - dev
+    restart: unless-stopped
+
+networks:
+  abisoft-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local

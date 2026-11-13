@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Rendez-vous</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Liste des Rendez-vous</h2>
+
+    <div class="mb-3">
+        <a th:href="@{/rdv/create}" class="btn btn-primary">Ajouter un rendez-vous</a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(rdvs)}" class="alert alert-info">
+        Aucun rendez-vous trouvé.
+    </div>
+
+    <table th:if="${!#lists.isEmpty(rdvs)}" class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Heure</th>
+            <th>Sujet</th>
+            <th>Client</th>
+            <th>Bureau</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rdv : ${rdvs}">
+            <td th:text="${rdv.id}"></td>
+            <td th:text="${#temporals.format(rdv.date, 'dd/MM/yyyy')}"></td>
+            <td th:text="${rdv.heur}"></td>
+            <td th:text="${rdv.sujet}"></td>
+            <td th:text="${rdv.client != null ? rdv.client.getFirstName(): ''}"></td>
+            <td th:text="${rdv.bureau != null ? rdv.bureau.getNom() : ''}"></td>
+
+            <td>
+                <a th:href="@{/rdv/details/{id}(id=${rdv.id})}" class="btn btn-info btn-sm">Détails</a>
+                <a th:href="@{/rdv/edit/{id}(id=${rdv.id})}" class="btn btn-warning btn-sm">Modifier</a>
+                <a th:href="@{/rdv/delete/{id}(id=${rdv.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous?')">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <title>الصفحة الرئيسية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <link href="/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <style>
+        body{ direction:rtl; }
+        img { max-width: 70%; height: auto; }
+        a.so{ font-size: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div id="layout-wrapper">
+    <header id="page-topbar">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <div class="navbar-brand-box">
+                    <a href="index.html" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="/assets/images/tribunal-logo.jpg" class="lolo" alt="" height="20">
+                            </span>
+                        <span class="logo-lg">
+                                <img src="/assets/images/tribunal-logo.jpg" class="lolo" alt="" style="width: 30%; height: 50%;">
+                            </span>
+                    </a>
+                </div>
+                <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
+                <div class="dropdown d-inline-block">
+                    <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bx bx-bell bx-tada"></i>
+                        <span class="badge bg-danger rounded-pill">3</span>
+                    </button>
+                </div>
+                <form class="app-search d-none d-lg-block">
+                    <div class="position-relative">
+                        <input type="text" class="form-control" placeholder=".....ابحث هنا">
+                        <span class="bx bx-search-alt"></span>
+                    </div>
+                </form>
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="/assets/images/users/avatar-1.jpg"
+                         alt="Header Avatar">
+                    <span th:text="${user.firstName}+' '+${user.lastName}">Admin</span>
+                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="vertical-menu">
+        <div data-simplebar class="h-100">
+            <div id="sidebar-menu">
+                <ul class="metismenu list-unstyled" id="side-menu">
+                    <li class="menu-title" key="t-menu">قائمة</li>
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="bx bx-home-circle"></i>
+                            <span key="t-dashboards">الصفحة الرئيسية</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bx-store"></i>
+                            <span key="t-ecommerce">الخدمات</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="https://www.mahakim.ma/" key="t-products">محاكم المغرب</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="bx bx-task"></i>
+                            <span key="t-authentication">المصادقة</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a th:href="@{/login}">تسجيل الدخول</a></li>
+                            <li><a th:href="@{/registration}"> التسجيل </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content" style="padding-right:5%;margin-left:2%;">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="page-wrapper">
+                    <div class="content container-fluid">
+                        <div class="page-header">
+                            <h2 style="text-align:center"><b>ادارةالمستخدم</b></h2>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-lg-9">
+                                        <h2 style="text-align:right"><b>إدارة المحامات</b></h2>
+                                        <h3 style="text-align:right">مرحبا بكم في موقع إدارة المحامات يمكنكم تنظيم جلساتكم بكل سهولة</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="">
+                                <div class="card card-table flex-fill">
+                                    <div class="card-header">
+                                        <h3 class="card-title mb-0">لائحة مكتب المحاماة</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table custom-table mb-0">
+                                                <thead>
+                                                <tr>
+                                                    <th>اسم</th>
+                                                    <th>بريد الالكتروني</th>
+                                                    <th>هاتف</th>
+                                                    <th class="test-in">الوضع</th>
+                                                    <th class="">الإجراء</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody th:each="bureau:${bureaux}">
+                                                <tr>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a th:href="@{/Admin/AdminAvocat/Avocat/profile-sA}" class="avatar">
+                                                                <img width="50" height="50" alt="" th:src="'data:image/jpeg;base64,'+${bureau.image}">
+                                                            </a>
+                                                            <a th:href="@{/Admin/AdminAvocat/Avocat/profile-sA}" th:text="${bureau.nom}">Barry Cuda</a>
+                                                        </h2>
+                                                    </td>
+                                                    <td><a th:text="${bureau.email}"></a></td>
+                                                    <td><a href="#" th:text="${bureau.telfex}"></a></td>
+                                                    <td>
+                                                        <select>
+                                                            <option>غير نشيط</option>
+                                                            <option selected> نشيط</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><button onclick="supprimerLigne(this)">حذف</button></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/libs/jquery/jquery.min.js"></script>
+<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="/assets/libs/node-waves/waves.min.js"></script>
+<script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/js/pages/dashboard.init.js"></script>
+<script src="/assets/js/app.js"></script>
+<script>
+    function supprimerLigne(button) {
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
+</body>
+</html>

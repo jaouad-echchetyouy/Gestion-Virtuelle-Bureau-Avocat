@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Tableau de bord | Gestion des Avocats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Système de gestion pour cabinets d'avocats" name="description" />
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <!-- CSS optimisé avec préchargement -->
+    <link rel="preload" href="/assets/css/bootstrap.rtl.min.css" as="style">
+    <link rel="stylesheet" href="/assets/css/bootstrap.rtl.min.css" id="bootstrap-style">
+    <link rel="stylesheet" href="/assets/css/icons.min.css">
+    <link rel="stylesheet" href="/assets/css/app.min.css" id="app-style">
+</head>
+
+<body>
+<!-- Begin page -->
+<div id="layout-wrapper">
+    <header id="page-topbar">
+        <div class="navbar-header">
+            <div class="d-flex align-items-center">
+                <!-- LOGO -->
+                <div class="navbar-brand-box">
+                    <a href="index.html" class="logo">
+                        <span class="logo-sm">
+                            <img src="/assets/images/tribunal-logo.jpg" alt="Logo du tribunal" height="30">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="/assets/images/tribunal-logo.jpg" alt="Logo du tribunal" height="60" width="auto">
+                        </span>
+                    </a>
+                </div>
+
+                <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn" aria-label="Menu">
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
+
+                <!-- Barre de recherche -->
+                <form class="app-search d-none d-lg-block ms-auto">
+                    <div class="position-relative">
+                        <input type="text" class="form-control" placeholder="ابحث هنا..." aria-label="Rechercher">
+                        <button type="submit" class="btn btn-link position-absolute end-0 top-0 p-2" aria-label="Chercher">
+                            <i class="bx bx-search-alt"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Actions rapides -->
+                <div class="d-flex align-items-center">
+                    <!-- Notifications -->
+                    <div class="dropdown d-inline-block me-2">
+                        <button type="button" class="btn header-item position-relative waves-effect" id="page-header-notifications-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Notifications">
+                            <i class="bx bx-bell bx-tada"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                             aria-labelledby="page-header-notifications-dropdown">
+                            <div class="p-3 border-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h6 class="m-0">إشعارات</h6>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="#!" class="small text-decoration-none">مشاهدة الكل</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-simplebar style="max-height: 230px;">
+                                <a href="javascript: void(0);" class="text-reset notification-item d-block p-3 border-bottom">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="avatar-xs bg-primary rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="bx bx-cart text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h6 class="mb-1">تم وضع طلبك</h6>
+                                            <p class="mb-1 text-muted small">يمكنك مشاهدة الاعلانات من هنا</p>
+                                            <p class="mb-0 text-muted small"><i class="mdi mdi-clock-outline me-1"></i>منذ 3 دقائق</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-link font-size-14 w-100 text-center">
+                                <i class="mdi mdi-arrow-right-circle me-1"></i> عرض المزيد
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Paramètres -->
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item waves-effect" aria-label="Paramètres"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bx bx-cog"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">الملف الشخصي</a></li>
+                            <li><a class="dropdown-item" href="#">الإعدادات</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#">تسجيل الخروج</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar gauche -->
+    <div class="vertical-menu">
+        <div data-simplebar class="h-100">
+            <div id="sidebar-menu">
+                <ul class="metismenu list-unstyled" id="side-menu">
+                    <li class="menu-title">قائمة</li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bx-home-circle"></i>
+                            <span>الصفحة الرئيسية</span>
+                            <span class="badge rounded-pill bg-info float-end">04</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="index.html">لوحة القيادة</a></li>
+                            <li><a href="dashboard-2.html">التقارير</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-title">تطبيقات</li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bx-calendar"></i>
+                            <span>اليومية</span>
+                            <span class="badge rounded-pill bg-success float-end">جديد</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="calendar.html">التقويم</a></li>
+                            <li><a href="calendar-full.html">التقويم الكامل</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="chat.html" class="waves-effect">
+                            <i class="bx bx-chat"></i>
+                            <span>محادثة</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bx-user-circle"></i>
+                            <span>المحامون</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a th:href="@{/Admin/AdminAvocat/Avocat/employees(user=${user.id})}">جميع المحامين</a></li>
+                            <li><a th:href="@{/rdv/list}">المواعيد</a></li>
+                            <li><a href="leaves.html">لوحة التحكم <span class="badge rounded-pill bg-primary float-end">1</span></a></li>
+                            <li><a th:href="@{/leaves-employee}">إجازة محامين</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0">لوحة القيادة</h4>
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item active">الرئيسية</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu de la page -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-end mb-4">
+                                    <h1 class="mb-2"><b>إدارة المحامات</b></h1>
+                                    <h3>مرحبا بكم في موقع إدارة المحامات يمكنكم تنظيم جلساتكم بكل سهولة</h3>
+                                </div>
+
+                                <!-- Statistiques -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="text-muted fw-medium mb-2">إجمالي القضايا</p>
+                                                        <h4 class="mb-0">240</h4>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-light rounded-circle">
+                                                            <i class="bx bx-folder-open font-size-24 text-primary"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="text-muted fw-medium mb-2">المواعيد اليوم</p>
+                                                        <h4 class="mb-0">12</h4>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-light rounded-circle">
+                                                            <i class="bx bx-calendar font-size-24 text-success"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="text-muted fw-medium mb-2">العملاء النشطون</p>
+                                                        <h4 class="mb-0">86</h4>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-light rounded-circle">
+                                                            <i class="bx bx-user-check font-size-24 text-primary"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script> © نظام إدارة المحاماة.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end d-none d-sm-block">
+                            تم التطوير بواسطة فريق التطوير
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!-- JS Files - Bundle avec defer pour optimiser le chargement -->
+<script src="/assets/libs/jquery/jquery.min.js" defer></script>
+<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+<script src="/assets/libs/metismenu/metisMenu.min.js" defer></script>
+<script src="/assets/libs/simplebar/simplebar.min.js" defer></script>
+<script src="/assets/libs/node-waves/waves.min.js" defer></script>
+
+<!-- ApexCharts -->
+<script src="/assets/libs/apexcharts/apexcharts.min.js" defer></script>
+
+<!-- App js -->
+<script src="/assets/js/app.js" defer></script>
+
+</body>
+</html>

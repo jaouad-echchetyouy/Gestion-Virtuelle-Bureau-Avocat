@@ -1,0 +1,220 @@
+/* Styles généraux */
+body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    text-align: right;
+    background-color: #f8f9fa;
+}
+
+.container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+/* Styles de carte */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.bg-primary.bg-soft {
+    background-color: #e6f2ff !important;
+    padding: 15px 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+/* Styles d'onglets */
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    font-weight: 600;
+    width: 100%;
+}
+
+.nav-tabs .nav-link.active {
+    color: #2a52be;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+}
+
+/* Styles de formulaire */
+.register-form {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-control {
+    height: 45px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Styles pour les champs de formulaire équilibrés */
+.col-md-6 {
+    padding: 0 10px;
+}
+
+.tab-content h3 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.tab-pane {
+    padding: 15px 0;
+}
+
+/* Styles pour le champ de date et de fichier */
+input[type="date"].form-control {
+    padding: 10px;
+}
+
+.custom-file {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.custom-file-input {
+    height: 45px;
+    width: 100%;
+}
+
+.custom-file-label {
+    height: 45px;
+    line-height: 2.5;
+    border-radius: 4px;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.custom-file-label::after {
+    height: 43px;
+    line-height: 2.5;
+    content: "تصفح";
+    right: auto;
+    left: 0;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Styles de bouton */
+.btn-primary {
+    background-color: #2a52be;
+    border-color: #2a52be;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #224499;
+    border-color: #224499;
+}
+
+/* Styles pour les icônes sociales */
+.social-list-item {
+    font-size: 16px;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    margin-right: 5px;
+}
+
+/* Styles supplémentaires */
+h3 {
+    color: #2a52be;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.invalid-feedback {
+    font-size: 80%;
+    color: #dc3545;
+}
+
+/* Styles pour les boutons de visibilité du mot de passe */
+.input-group-append .btn {
+    padding: 0.375rem 0.75rem;
+    height: 45px;
+}
+
+/* Ajustements pour les champs préremplis */
+input[readonly], input[disabled] {
+    background-color: #f0f4f8;
+}
+
+/* Styles pour l'en-tête du formulaire */
+.tab-content > div > h3 {
+    text-align: center;
+    color: #2a52be;
+    margin: 10px 0 25px;
+    font-weight: bold;
+}
+
+/* Styles responsifs */
+@media (max-width: 768px) {
+    .register-form .col-md-6 {
+        margin-bottom: 10px;
+    }
+
+    .nav-tabs .nav-item {
+        font-size: 14px;
+    }
+
+    .card {
+        margin: 10px;
+    }
+}
+
+/* Assurer que tous les onglets ont une apparence cohérente */
+#bureau, #avocat, #secretaire, #client {
+    min-height: 450px;
+}
+
+/* Style pour le calendrier */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    margin-left: 0;
+    margin-right: -10px;
+}

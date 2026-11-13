@@ -1,0 +1,31 @@
+# =============================================================================
+# Dockerfile de développement - Hot reload avec Spring Boot DevTools
+# =============================================================================
+FROM maven:3.9.9-eclipse-temurin-17-alpine AS dev
+
+WORKDIR /app
+
+# Installer outils de dev
+RUN apk add --no-cache git bash curl
+
+# Copier les fichiers de build
+COPY pom.xml .
+COPY .mvn .mvn
+COPY mvnw .
+COPY mvnw.cmd .
+
+# Télécharger les dépendances
+RUN ./mvnw dependency:go-offline -B
+
+# Copier le code source
+COPY src ./src
+
+# Exposer les ports (app + devtools + debug)
+EXPOSE 8080 35729 5005
+
+# Variables pour DevTools et remote debugging
+ENV SPRING_DEVTOOLS_REMOTE_SECRET=devsecret
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+# Démarrer en mode dev avec hot reload
+CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]

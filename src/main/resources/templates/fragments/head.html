@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ABIsoft - Gestion de cabinet d'avocats">
+    <title th:text="${pageTitle} + ' | ABIsoft'">ABIsoft</title>
+
+    <!-- Tailwind CSS via CDN (pour dev) - En prod, utiliser le build local -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        arabic: ['Cairo', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Alpine.js pour l'interactivité légère -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <!-- Heroicons (SVG) -->
+    <script src="https://unpkg.com/@heroicons/vue@2.1.3/24/outline/index.js" type="module"></script>
+    <script src="https://unpkg.com/@heroicons/vue@2.1.3/24/solid/index.js" type="module"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" th:href="@{/images/favicon.svg}">
+    <link rel="apple-touch-icon" th:href="@{/images/apple-touch-icon.png}">
+
+    <!-- Thymeleaf Layout Dialect - pour les fragments -->
+    <th:block layout:fragment="custom-head"></th:block>
+</head>

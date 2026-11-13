@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>قائمة المكاتب</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<h2 class="text-center mb-4">قائمة مكاتب المحاماة</h2>
+
+<!-- Formulaire de recherche -->
+<form th:action="@{/bureau/liste}" method="get" class="row mb-4">
+  <div class="col-md-8">
+    <input type="text" name="query" class="form-control" placeholder="ابحث باسم المكتب">
+  </div>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-primary w-100">بحث</button>
+  </div>
+</form>
+
+<!-- Table des bureaux -->
+<table class="table table-bordered text-center">
+  <thead class="table-dark">
+  <tr>
+    <th>الاسم</th>
+    <th>الهاتف</th>
+    <th>الهاتف الثابت</th>
+    <th>العنوان</th>
+    <th>البريد الإلكتروني</th>
+    <th>الصورة</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="bureau : ${bureaux}">
+    <td th:text="${bureau.nom}"></td>
+    <td th:text="${bureau.tel}"></td>
+    <td th:text="${bureau.telfex}"></td>
+    <td th:text="${bureau.adresse}"></td>
+    <td th:text="${bureau.email}"></td>
+    <td>
+      <img th:if="${bureau.image != null}" th:src="'data:image/jpeg;base64,' + ${bureau.image}" width="60" height="60" alt="صورة المكتب" class="rounded">
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Lien vers formulaire d'ajout -->
+<div class="text-center mt-4">
+  <a class="btn btn-success" th:href="@{/bureau/nouveau}">إضافة مكتب جديد</a>
+</div>
+
+</body>
+</html>

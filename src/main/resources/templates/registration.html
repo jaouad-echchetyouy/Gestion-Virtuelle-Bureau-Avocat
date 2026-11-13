@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" xmlns: layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex, nofollow">
+	<title>إنشاء حساب</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<link rel="stylesheet" href="../registration/registration.css">
+	<!-- Scripts JavaScript -->
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<!-- En-tête et liens CSS -->
+<link rel="shortcut icon" href="assets/images/favicon.ico">
+<link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+
+<!-- Contenu principal -->
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-8 col-lg-6 col-xl-5">
+			<div class="card overflow-hidden">
+				<div class="bg-primary bg-soft">
+					<div class="row">
+						<div class="col-7">
+							<div class="text-primary p-4">
+								<h3 style="color:black;">مرحبا بكم</h3>
+								<p><h4 style="color:blue;"><b>قم بالتسجيل الأن</b></h4></p>
+							</div>
+						</div>
+						<div class="col-5 align-self-end">
+							<img src="assets/images/adl.svg" alt="" class="img-fluid">
+						</div>
+					</div>
+				</div>
+				<div class="card-body pt-0">
+					<div>
+						<a href="index.html">
+							<div class="avatar-md profile-user-wid mb-4">
+                                <span class="avatar-title rounded-circle bg-light">
+                                    <img src="assets/images/logo.svg" alt="" class="rounded-circle" height="34">
+                                </span>
+							</div>
+						</a>
+					</div>
+
+					<!-- Onglets de navigation -->
+					<ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+						<li class="nav-item"><a class="nav-link active" id="bureau-tab" data-toggle="tab" href="#bureau" role="tab" aria-controls="bureau" aria-selected="true">مكتب</a></li>
+						<li class="nav-item"><a class="nav-link" id="avocat-tab" data-toggle="tab" href="#avocat" role="tab" aria-controls="avocat" aria-selected="false">محامي</a></li>
+						<li class="nav-item"><a class="nav-link" id="secretaire-tab" data-toggle="tab" href="#secretaire" role="tab" aria-controls="secretaire" aria-selected="false">كاتبة</a></li>
+						<li class="nav-item"><a class="nav-link" id="client-tab" data-toggle="tab" href="#client" role="tab" aria-controls="client" aria-selected="false">زبون</a></li>
+					</ul>
+
+					<!-- Contenu des onglets -->
+					<div class="tab-content" id="myTabContent">
+						<!-- Onglet Bureau -->
+						<div class="tab-pane fade show active" id="bureau" role="tabpanel" aria-labelledby="bureau-tab">
+							<form th:action="@{/bureau/ajouter}" method="POST" th:object="${user}" enctype="multipart/form-data" class="needs-validation" novalidate>
+								<h3>انشاء مكتب</h3>
+								<div class="row register-form">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" id="firstName" name="firstName" placeholder="اسم المكتب" required />
+											<div class="invalid-feedback">الرجاء إدخال اسم المكتب</div>
+										</div>
+										<div class="form-group">
+											<select class="form-control" name="ville" required>
+												<option value="" selected disabled>تحديد المدينة</option>
+												<option th:each="ville : ${villes}" th:value="${ville.id}" th:text="${ville.nom}"></option>
+											</select>
+											<div class="invalid-feedback">الرجاء اختيار المدينة</div>
+										</div>
+										<div class="form-group">
+											<select class="form-control" name="barreau" required>
+												<option value="" selected disabled>تحديد الهيئة</option>
+												<option th:each="barreau : ${barreaux}" th:value="${barreau.idBarreau}" th:text="${barreau.nomBarreau}"></option>
+											</select>
+											<div class="invalid-feedback">الرجاء اختيار الهيئة</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" pattern="0[5-7]\d{8}" class="form-control" name="mobilePhone" placeholder="رقم الهاتف المحمول" required />
+											<div class="invalid-feedback">رقم الهاتف يجب أن يبدأ ب 05، 06 أو 07 ويتكون من 10 أرقام</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" pattern="0\d{9}" class="form-control" name="fixedPhone" placeholder="رقم الهاتف الثابت" />
+											<div class="invalid-feedback">رقم الهاتف الثابت يجب أن يتكون من 10 أرقام</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" name="adresse" placeholder="العنوان" required />
+											<div class="invalid-feedback">الرجاء إدخال العنوان</div>
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control" name="email" placeholder="البريد الالكتروني" required />
+											<div class="invalid-feedback">الرجاء إدخال بريد إلكتروني صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" name="password" placeholder="كلمة السر"  required />
+											<div class="invalid-feedback">كلمة السر يجب أن تكون 8 أحرف على الأقل</div>
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" name="confirmPassword" placeholder="اعادة كلمة السر" required />
+											<div class="invalid-feedback">كلمة السر غير متطابقة</div>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" id="bureauImage" name="image" accept="image/*">
+											<label class="custom-file-label" for="bureauImage">اضافة صورة</label>
+										</div>
+										<br />
+										<br />
+										<div class="mt-4 d-grid">
+											<button class="btn btn-primary waves-effect waves-light" type="submit"><b>تسجيل</b></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<!-- Onglet Avocat -->
+						<div class="tab-pane fade" id="avocat" role="tabpanel" aria-labelledby="avocat-tab">
+							<form th:action="@{/Avocat/employee/add}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+								<h3>انشاء حساب محامي</h3>
+								<div class="row register-form">
+									<!-- Colonne Gauche -->
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" name="Aname" placeholder="الاسم" required />
+											<div class="invalid-feedback">الرجاء إدخال الاسم بالحروف فقط</div>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" name="Alast" placeholder="النسب" required />
+											<div class="invalid-feedback">الرجاء إدخال النسب بالحروف فقط</div>
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control" name="Aemail" placeholder="البريد الإلكتروني"
+												   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required />
+											<div class="invalid-feedback">البريد الإلكتروني غير صحيح</div>
+										</div>
+										<div class="form-group">
+											<div class="input-group">
+												<input type="password" class="form-control" name="Apassw" placeholder="كلمة المرور" required />
+											</div>
+											<div class="invalid-feedback">يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل مع حرف كبير وصغير ورقم</div>
+										</div>
+										<!-- Champ de confirmation du mot de passe -->
+										<div class="form-group">
+											<input type="password" class="form-control" name="confirmPassword" placeholder="تأكيد كلمة المرور" required />
+											<div class="invalid-feedback">كلمة المرور غير متطابقة</div>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" name="ACarte" placeholder="البطاقة الوطنية" required />
+											<div class="invalid-feedback">الرجاء إدخال رقم البطاقة الوطنية</div>
+										</div>
+									</div>
+
+									<!-- Colonne Droite -->
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" name="Aadresse" placeholder="العنوان" minlength="3" required />
+											<div class="invalid-feedback">الرجاء إدخال العنوان بشكل صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="date" class="form-control" name="ADate" required />
+											<div class="invalid-feedback">الرجاء اختيار تاريخ صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" class="form-control" name="Atel" placeholder="الهاتف" pattern="0[5-7]\d{8}" required />
+											<div class="invalid-feedback">رقم الهاتف يجب أن يبدأ ب 05، 06 أو 07 ويتكون من 10 أرقام</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" class="form-control" name="Atelfixe" placeholder="الهاتف الثابت" pattern="0\d{9}" />
+											<div class="invalid-feedback">رقم الهاتف الثابت يجب أن يتكون من 10 أرقام</div>
+										</div>
+										<div class="form-group">
+											<select class="form-control" name="ABarreau" required>
+												<option value="" selected disabled>تحديد الهيئة</option>
+												<option th:each="barreau:${barreaux}" th:value="${barreau.idBarreau}" th:text="${barreau.nomBarreau}"></option>
+											</select>
+											<div class="invalid-feedback">الرجاء اختيار الهيئة</div>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" id="avocatImage" name="file" accept="image/png, image/jpeg, image/jpg">
+											<label class="custom-file-label" for="avocatImage">اضافة صورة</label>
+										</div>
+										<div class="mt-4 d-grid">
+											<button class="btn btn-primary waves-effect waves-light" type="submit"><b>تسجيل</b></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+
+
+						<!-- Onglet Secrétaire -->
+						<div class="tab-pane fade" id="secretaire" role="tabpanel" aria-labelledby="secretaire-tab">
+							<form th:action="@{/Secretaire/secretaires/add}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+								<h3>انشاء حساب كاتبة</h3>
+								<div class="row register-form">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="الاسم" name="Sname" required />
+											<div class="invalid-feedback">الرجاء إدخال الاسم</div>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="النسب" name="Slast" required />
+											<div class="invalid-feedback">الرجاء إدخال النسب</div>
+										</div>
+										<div class="form-group">
+											<select class="form-control" name="bureau" required>
+												<option value="" selected disabled>تحديد المكتب</option>
+												<option th:each="bureau:${bureaux}" th:value="${bureau.id}" th:text="${bureau.nom}"></option>
+											</select>
+											<div class="invalid-feedback">الرجاء اختيار المكتب</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" pattern="0[5-7]\d{8}" class="form-control" placeholder="رقم الهاتف" name="Stel" required />
+											<div class="invalid-feedback">رقم الهاتف يجب أن يبدأ ب 05، 06 أو 07 ويتكون من 10 أرقام</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" pattern="0\d{9}" class="form-control" placeholder="الهاتف الثابت" name="Stelfixe" />
+											<div class="invalid-feedback">رقم الهاتف الثابت يجب أن يتكون من 10 أرقام</div>
+										</div>
+										<div class="form-group">
+											<input type="text"  class="form-control" placeholder="البطاقة الوطنية" name="SCarte" required />
+											<div class="invalid-feedback">رقم البطاقة الوطنية يجب أن يكون 8 أرقام</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="العنوان" name="Sadresse"  required />
+											<div class="invalid-feedback">الرجاء إدخال العنوان بشكل صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control" placeholder="البريد الالكتروني" name="Semail" required />
+											<div class="invalid-feedback">الرجاء إدخال بريد إلكتروني صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" placeholder="كلمة السر" name="Spassw"  required />
+											<div class="invalid-feedback">كلمة السر يجب أن تكون 8 أحرف على الأقل</div>
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" placeholder="اعادة كلمة السر" name="confirmPassword" required />
+											<div class="invalid-feedback">كلمة السر غير متطابقة</div>
+										</div>
+										<div class="form-group">
+											<input type="date" class="form-control" name="SDate" required />
+											<div class="invalid-feedback">الرجاء اختيار تاريخ</div>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" id="secretaireImage" name="file" accept="image/*">
+											<label class="custom-file-label" for="secretaireImage">اضافة صورة</label>
+										</div>
+										<div class="mt-4 d-grid">
+											<button class="btn btn-primary waves-effect waves-light" type="submit"><b>تسجيل</b></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<!-- Onglet Client -->
+						<div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="client-tab">
+							<form th:action="@{/Client/clients/add}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+								<h3>انشاء حساب زبون</h3>
+								<div class="row register-form">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" name="Cname" placeholder="الاسم" required />
+											<div class="invalid-feedback">الرجاء إدخال الاسم</div>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" name="Clast" placeholder="النسب" required />
+											<div class="invalid-feedback">الرجاء إدخال النسب</div>
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control" name="Cemail" placeholder="البريد الإلكتروني" required />
+											<div class="invalid-feedback">الرجاء إدخال بريد إلكتروني صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" name="Cpassw" placeholder="كلمة المرور" required />
+											<div class="invalid-feedback">كلمة المرور يجب أن تكون 8 أحرف على الأقل</div>
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" name="CconfirmPassword" placeholder="اعادة كلمة السر" required />
+											<div class="invalid-feedback">كلمة السر غير متطابقة</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text"  class="form-control" name="CCarte" placeholder="البطاقة الوطنية" required />
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" name="Cadresse" placeholder="العنوان" minlength="3" required />
+											<div class="invalid-feedback">الرجاء إدخال العنوان بشكل صحيح</div>
+										</div>
+										<div class="form-group">
+											<input type="date" class="form-control" name="CDate" required />
+											<div class="invalid-feedback">الرجاء اختيار تاريخ</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" pattern="0[5-7]\d{8}" class="form-control" name="Ctel" placeholder="الهاتف" required />
+											<div class="invalid-feedback">رقم الهاتف يجب أن يبدأ ب 05، 06 أو 07 ويتكون من 10 أرقام</div>
+										</div>
+										<div class="form-group">
+											<input type="tel" pattern="0\d{9}" class="form-control" name="Ctelfixe" placeholder="الهاتف الثابت" />
+											<div class="invalid-feedback">رقم الهاتف الثابت يجب أن يتكون من 10 أرقام</div>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" id="clientImage" name="file" accept="image/*">
+											<label class="custom-file-label" for="clientImage">اضافة صورة</label>
+										</div>
+										<div class="mt-4 d-grid">
+											<button class="btn btn-primary waves-effect waves-light" type="submit"><b>تسجيل</b></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<!-- Section commune pour tous les onglets -->
+					<div class="mt-4 text-center">
+						<h5 class="font-size-14 mb-3">تسجيل الدخول ب</h5>
+						<ul class="list-inline">
+							<li class="list-inline-item">
+								<a href="javascript:void(0)" class="social-list-item bg-primary text-white border-primary">
+									<i class="mdi mdi-facebook"></i>
+								</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="javascript:void(0)" class="social-list-item bg-info text-white border-info">
+									<i class="mdi mdi-twitter"></i>
+								</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="javascript:void(0)" class="social-list-item bg-danger text-white border-danger">
+									<i class="mdi mdi-google"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="mt-4 text-center">
+						<p class="mb-0">بالتسجيل فإنك توافق على <a href="#" class="text-primary">شروط الاستخدام</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<link rel="stylesheet" href="../registration/registration.css">
+</body>
+</html>
